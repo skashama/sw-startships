@@ -17,49 +17,62 @@ const Home = () => {
 
 
 	useEffect(() => {
-			getStarships();	
+		getStarships();	
 	}, []);
 	
 
 	useEffect(() => {
-		addTotals();
-		console.log(total);
+		// addTotals();
+		// console.log(total);
 	}, [cart, total])
 	
-	 const getStarships =  () => {
-			fetch('https://swapi.dev/api/starships')
-			.then(response => response.json())
-			.then(data => {
+	//  const getStarships =  () => {
+	// 		fetch('https://swapi.dev/api/starships')
+	// 		.then(response => response.json())
+	// 		.then(data => {
 
-				let products = data.results;
+	// 			let products = data.results;
 
-				products.forEach(product => {
-						product.inCart = false;
-						product.count = 0;
-						product.subtotal = 0;
+	// 			products.forEach(product => {
+	// 					product.inCart = false;
+	// 					product.count = 0;
+	// 					product.subtotal = 0;
 
-						if(product.cost_in_credits === "unknown"){
-							product.cost_in_credits = 99999;
-						}
-						product.cost_in_credits = parseFloat(product.cost_in_credits);
-				});
+	// 					if(product.cost_in_credits === "unknown"){
+	// 						product.cost_in_credits = 99999;
+	// 					}
+	// 					product.cost_in_credits = parseFloat(product.cost_in_credits);
+	// 			});
 
-				setProducts(products);
+	// 			setProducts(products);
 
-			})
-			.catch(error => console.error(error)); 
-	}
+	// 		})
+	// 		.catch(error => console.error(error)); 
+	// }
 
-	
-	const filterShips = shipClass => {
+	const getStarships =  () => {
+		fetch('https://swapi.dev/api/starships')
+		.then(response => response.json())
+		.then(data => {
 
-		let filtered = products.filter(ship => ship.starship_class === shipClass);
+			let products = data.results;
 
-		setProducts(filtered);
+			products.forEach(product => {
+					product.inCart = false;
+					product.count = 0;
+					product.subtotal = 0;
 
-		// console.log(filtered);
+					if(product.cost_in_credits === "unknown"){
+						product.cost_in_credits = 99999;
+					}
+					product.cost_in_credits = parseFloat(product.cost_in_credits);
+			});
 
-	}
+			setProducts(products);
+
+		})
+		.catch(error => console.error(error)); 
+}
 
 
 	const getItem = id => {
@@ -69,7 +82,6 @@ const Home = () => {
 
   };
 
-	
 
 	const addToCart = id => {
     let tempProducts = [...products];
@@ -185,13 +197,14 @@ const Home = () => {
 				</Navbar>
 
 			<Routes>
-				<Route path="/" element={ <ProductList products={products} 
-																							 addToCart={addToCart} 
-																							 filterShips={filterShips} 
+				<Route path="/" element={ <ProductList products={products}
+																							 setProducts={setProducts} 
+																							 addToCart={addToCart}  
 																							 filtered={filtered} 
-																							 setFiltered={setFiltered} /> } />
+																							 setFiltered={setFiltered} />}/>
 				
-				<Route path="/checkout" element={<Checkout products={products} 
+				<Route path="/checkout" element={<Checkout products={products}
+																									 setProducts={setProducts}
 																									 cart={cart} 
 																									 incrementQuantity={incrementQuantity} 
 																									 total={total} 
@@ -199,8 +212,7 @@ const Home = () => {
 																									 addTotals={addTotals}
 																									 addToCart={addToCart} 
 																									 setCart={setCart}
-																									 setTotal={setTotal} />} />
-				
+																									 setTotal={setTotal} />}/>				
 			</Routes>
 				
 

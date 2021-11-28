@@ -1,15 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs';
 
 //  display cart
 
-const Checkout = ({ cart, setCart, incrementQuantity, total, decrementQuantity }) => {
+const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity, addTotals }) => {
 
   const btnStyle = {
     margin: '.4rem',
     fontSize: '20px'
   }
+
+  
+  let [code, setCode] = useState("");
+  
+  useEffect(() => {
+    // applyDiscount();
+    addTotals();
+    // applyDiscount();
+  }, [])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if(code.toLowerCase() === 'palpatine') {
+        applyDiscount();
+    }
+    // console.log(code);
+    setCode('');
+   
+  }
+
+  const applyDiscount = () => {
+    
+    let discount = 0.066;
+    let price = total;
+    let discounted = discount*price;
+    total = price - discounted;
+    
+    setTotal(total);
+
+    // console.log(priceToPay);
+    console.log(total);
+  }
+
 
     return (
         <div className="product-list">
@@ -45,11 +79,13 @@ const Checkout = ({ cart, setCart, incrementQuantity, total, decrementQuantity }
                     })}
                   <tr>
                     <td colSpan="2">
-                      <label for="code">CODE:</label>
-                      <input type="text" name="code" />
-                      <button>Apply</button>
+                      <form onSubmit={handleSubmit}>
+                        <label>CODE:</label>
+                        <input type="text" name="code" value={code} onChange={(e) => setCode(e.target.value)}  />
+                        <button type="submit">Apply</button>
+                      </form>
                     </td>
-                    <td colSpan="2">Total: {total}</td>
+                    <td colSpan="2"> <b>Total :</b> {total}</td>
                   </tr>
                 </tbody>
           </Table>

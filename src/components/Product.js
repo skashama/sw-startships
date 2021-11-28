@@ -2,12 +2,14 @@ import React from 'react';
 
 // Display single starship/Product
 
-const Product = ({ products, addToCart }) => {
+const Product = ({ products, addToCart, filtered }) => {
 
 	
 	return (
 		<>
-			{products.map(product => {
+			{products
+					.filter(product => !filtered || product.starship_class === filtered)
+					.map(product => {
 						return (
 							<tr key={product.url}>
 								<td>{product.name}</td>
