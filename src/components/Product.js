@@ -1,53 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { BsCheckLg, BsBag } from 'react-icons/bs';
+import React from 'react';
 
 // Display single starship/Product
 
+const Product = ({ products, addToCart }) => {
 
-
-const Product = () => {
-
-	let [products, setProducts] = useState([]);
-
-
-	useEffect(() => {
 	
-			getStarships();
-	
-	}, []);
-	
-	
-	 const getStarships =  () => {
-			fetch('https://swapi.dev/api/starships')
-			.then(response => response.json())
-			.then(data => {
-				setProducts(data.results);
-				// console.log(data.results); 
-			})
-			.catch(error => console.error(error)); 
-	}
-
-	const addProductToCart = (products) => {
-		console.log(products);
-	}
-
-    return (
-        <>
-					{products.map(product => {
+	return (
+		<>
+			{products.map(product => {
 						return (
 							<tr key={product.url}>
 								<td>{product.name}</td>
 								<td>{product.model}</td>
-								<td>{product.cost_in_credits}</td>
+								<td>									
+									{ product.cost_in_credits === 'unknown' 
+										? 99999  
+										: product.cost_in_credits }
+								</td>
 								<td>
-									<button onClick={addProductToCart}>Add to cart
+									<button onClick={() => {
+											addToCart(product.url) }} 
+											disabled={ product.inCart ? true : false}
+									>
+										{product.inCart ? 'Added to Cart' : 'Add to cart'}
 										</button>
 								</td>
-								{/* <td><BsCheckLg /></td> */}
 							</tr>
 						)
-					})}
-        </>
+			})}
+    </>
     )
 }
 
