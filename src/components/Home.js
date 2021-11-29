@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import { Nav }  from 'react-bootstrap';
+import { Navbar, Nav} from 'react-bootstrap';
 import '../styles/Home.css';
 import ProductList from './ProductList';
 import Checkout from './Checkout';
@@ -12,7 +11,6 @@ const Home = () => {
 
 	let [products, setProducts] = useState([]);
 	let [cart, setCart] = useState([]);
-	let [filtered, setFiltered] = useState([]);
 	let [total, setTotal] = useState(0);
 
 
@@ -20,35 +18,6 @@ const Home = () => {
 		getStarships();	
 	}, []);
 	
-
-	useEffect(() => {
-		// addTotals();
-		// console.log(total);
-	}, [cart, total])
-	
-	//  const getStarships =  () => {
-	// 		fetch('https://swapi.dev/api/starships')
-	// 		.then(response => response.json())
-	// 		.then(data => {
-
-	// 			let products = data.results;
-
-	// 			products.forEach(product => {
-	// 					product.inCart = false;
-	// 					product.count = 0;
-	// 					product.subtotal = 0;
-
-	// 					if(product.cost_in_credits === "unknown"){
-	// 						product.cost_in_credits = 99999;
-	// 					}
-	// 					product.cost_in_credits = parseFloat(product.cost_in_credits);
-	// 			});
-
-	// 			setProducts(products);
-
-	// 		})
-	// 		.catch(error => console.error(error)); 
-	// }
 
 	const getStarships =  () => {
 		fetch('https://swapi.dev/api/starships')
@@ -76,12 +45,9 @@ const Home = () => {
 
 
 	const getItem = id => {
-
     const product = products.find(item => item.url === id);
     return product;
-
   };
-
 
 	const addToCart = id => {
     let tempProducts = [...products];
@@ -99,7 +65,6 @@ const Home = () => {
 		setCart([...cart, product]);
 		setProducts([...tempProducts]);
 		addTotals();
-
   };
 
 	const addTotals = () => {
@@ -110,7 +75,6 @@ const Home = () => {
 		});
 
 		setTotal(total);
-
 	}
 
   const incrementQuantity = id => {
@@ -127,8 +91,7 @@ const Home = () => {
 		product.subtotal = parseFloat(product.count) * parseFloat(product.cost_in_credits);
 
 		setCart([...tempCart]);
-		addTotals();
-		
+		addTotals();	
   }
 
   const decrementQuantity = id => {
@@ -175,21 +138,21 @@ const Home = () => {
 					<>
 						<Navbar.Brand>              
 							<Nav.Link href="#">
-								<Link to="/"><span className="nav-Item">SW Starships</span></Link>
+								<Link to="/"><span className="nav-Item">Star Wars</span></Link>
 							</Nav.Link>
 						</Navbar.Brand>
 
 						<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 						<Navbar.Collapse id="responsive-navbar-nav">
-							<Nav className="mr-auto navbar-link">
-								<Nav.Link href="#">
-									<Link to="/"><span className="nav-Item">Products</span></Link>
+							<Nav className="me-auto navbar-link">
+								<Nav.Link>
+									<Link to="/"><span className="nav-Item">Starships</span></Link>
 								</Nav.Link>
 							</Nav>
 								
-							<Nav className="navbar-link">
-								<Nav.Link href="#">
-									<Link to="/checkout"><span className="nav-Item">Cart</span></Link>
+							<Nav className="navbar-link ms-auto">
+								<Nav.Link >
+									<Link to="/checkout"><span className="nav-Item">Purchase</span></Link>
 								</Nav.Link>
 							</Nav>
 							</Navbar.Collapse>
@@ -199,23 +162,16 @@ const Home = () => {
 			<Routes>
 				<Route path="/" element={ <ProductList products={products}
 																							 setProducts={setProducts} 
-																							 addToCart={addToCart}  
-																							 filtered={filtered} 
-																							 setFiltered={setFiltered} />}/>
+																							 addToCart={addToCart} />}/>
 				
-				<Route path="/checkout" element={<Checkout products={products}
-																									 setProducts={setProducts}
-																									 cart={cart} 
+				<Route path="/checkout" element={<Checkout cart={cart} 
 																									 incrementQuantity={incrementQuantity} 
 																									 total={total} 
 																									 decrementQuantity={decrementQuantity}
 																									 addTotals={addTotals}
-																									 addToCart={addToCart} 
-																									 setCart={setCart}
 																									 setTotal={setTotal} />}/>				
 			</Routes>
 				
-
     </div>
     )
 }

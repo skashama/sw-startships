@@ -5,25 +5,27 @@ import Product from './Product';
 
 // Display list of starships/Products
 
-const ProductList = ({ products, setProducts, addToCart, filterShips }) => {
+const ProductList = ({ products, addToCart }) => {
 
 	let [filtered, setFiltered] = useState();
 
+	const uniqueClasses = [...new Set(products.map(product => product.starship_class))]
+
 
     return (
-        <div>
+        <div className="store_container">
             <h2>Our Products</h2>
-
-							<Container className="products-container">
+						<br/>
+							<Container className="products_container">
 								<Row xs={1} md={2}>
 									<Col md={2}>
 									<div className="filter_ui">
 									<label for="classes">Filter by: </label>
 									<select id="classes" className="classes_ui" onChange={(e) => setFiltered(e.target.value) }>
 										<option value="">All</option>
-										{products.map(product => {
+										{uniqueClasses.map(shipClass => {
 												return (
-													<option value={product.starship_class}>{product.starship_class}</option>					
+													<option value={shipClass}>{shipClass}</option>					
 												)
 										})}
 									</select>
@@ -31,7 +33,7 @@ const ProductList = ({ products, setProducts, addToCart, filterShips }) => {
 									</div>
 									</Col>
 									<Col md={10} className="table_col">								
-										<Table striped bordered hover>
+										<Table striped bordered hover responsive="sm">
 											<thead>
 												<tr>
 													<th>Make</th>
@@ -39,7 +41,10 @@ const ProductList = ({ products, setProducts, addToCart, filterShips }) => {
 													<th>Price</th>
 												</tr>
 												</thead>
-												<tbody><Product products={products} addToCart={addToCart} filtered={filtered} setFiltered={setFiltered} /></tbody>
+												<tbody><Product products={products} 
+																				addToCart={addToCart} 
+																				filtered={filtered} 
+												/></tbody>
 										</Table>
 									</Col>		
 													

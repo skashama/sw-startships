@@ -20,12 +20,11 @@ const Product = ({ products, addToCart, filtered }) => {
 										: product.cost_in_credits }
 								</td>
 								<td>
-									<button onClick={() => {
+									<button className="cart_button" onClick={() => {
 											addToCart(product.url) }} 
-											disabled={ product.inCart ? true : false}
-									>
-										{product.inCart ? 'Added to Cart' : 'Add to cart'}
-										</button>
+											disabled={ product.inCart ? true : false}>
+										{product.inCart ? 'Added to Cart' : 'Add to Cart'}
+									</button> 
 								</td>
 							</tr>
 						)

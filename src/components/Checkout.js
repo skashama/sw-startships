@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs';
+import { Alert } from 'react-bootstrap';
 
 //  display cart
 
@@ -15,9 +16,7 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
   let [code, setCode] = useState("");
   
   useEffect(() => {
-    // applyDiscount();
     addTotals();
-    // applyDiscount();
   }, [])
 
   const handleSubmit = (e) => {
@@ -26,28 +25,21 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
     if(code.toLowerCase() === 'palpatine') {
         applyDiscount();
     }
-    // console.log(code);
-    setCode('');
-   
+    setCode('');  
   }
 
   const applyDiscount = () => {
-    
     let discount = 0.066;
     let price = total;
     let discounted = discount*price;
-    total = price - discounted;
-    
+    total = price - discounted;   
     setTotal(total);
-
-    // console.log(priceToPay);
-    console.log(total);
   }
-
 
     return (
         <div className="product-list">
-          <Table striped bordered hover>
+          {cart.length === 0 ? <Alert variant="warning">Your cart is currently empty.</Alert> :
+          <Table striped bordered hover responsive="sm">
                 <thead>
                     <tr>
                     <th>Product</th>
@@ -89,6 +81,7 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
                   </tr>
                 </tbody>
           </Table>
+          }
         </div>
     )
 }

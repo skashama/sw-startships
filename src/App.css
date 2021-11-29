@@ -5,3 +5,19 @@ h2 {
 .product-list {
   margin: 1.3rem;
 }
+
+a {
+  text-decoration: none !important;
+}
+
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.store_container {
+  padding-top: 1rem;
+}
+
+.cart_button {
+  border-radius: 6px;
+}
