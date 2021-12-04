@@ -42,8 +42,8 @@ const ProductList = ({ products, addToCart }) => {
 												</tr>
 												</thead>
 												<tbody><Product products={products} 
-																				addToCart={addToCart} 
-																				filtered={filtered} 
+																addToCart={addToCart} 
+																filtered={filtered} 
 												/></tbody>
 										</Table>
 									</Col>		

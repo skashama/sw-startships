@@ -21,7 +21,7 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     if(code.toLowerCase() === 'palpatine') {
         applyDiscount();
     }
@@ -52,7 +52,7 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
                   {cart.map(product => {
                           return (
                             <tr key={product.url}>
-                              <td>{product.name}</td>
+                              <td>{product.manufacturer}</td>
                               <td>									
                                 { product.cost_in_credits === 'unknown' 
                                   ? 99999  
@@ -77,7 +77,7 @@ const Checkout = ({ cart, incrementQuantity, total, setTotal, decrementQuantity,
                         <button type="submit">Apply</button>
                       </form>
                     </td>
-                    <td colSpan="2"> <b>Total :</b> {total}</td>
+                    <td colSpan="2"> <b>Total:</b> {total}</td>
                   </tr>
                 </tbody>
           </Table>

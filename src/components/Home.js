@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { Navbar, Nav} from 'react-bootstrap';
+import { Navbar, Nav, Button} from 'react-bootstrap';
 import '../styles/Home.css';
 import ProductList from './ProductList';
 import Checkout from './Checkout';
@@ -19,12 +19,27 @@ const Home = () => {
 	}, []);
 	
 
+	const filterProduct = product => {		
+		for(let key in product) {
+			if(product[key].includes('Imperial')){
+				return true;
+			}
+		}
+		return false;		
+	}
+
 	const getStarships =  () => {
 		fetch('https://swapi.dev/api/starships')
 		.then(response => response.json())
 		.then(data => {
 
 			let products = data.results;
+
+			products = products.filter(filterProduct);
+
+			
+			console.log(products);
+
 
 			products.forEach(product => {
 					product.inCart = false;
@@ -79,8 +94,7 @@ const Home = () => {
 
   const incrementQuantity = id => {
 		let tempCart = [...cart];
-		const selectedProduct = tempCart.find(item => item.url === id)
-		const index = tempCart.indexOf(selectedProduct);
+		const index = tempCart.indexOf(getItem(id));
 		const product = tempCart[index];
 
 		product.count = product.count + 1;
@@ -96,8 +110,7 @@ const Home = () => {
 
   const decrementQuantity = id => {
 		let tempCart = [...cart];
-		const selectedProduct = tempCart.find(item => item.url === id)
-		const index = tempCart.indexOf(selectedProduct);
+		const index = tempCart.indexOf(getItem(id));
 		const product = tempCart[index];
 
 		product.count = product.count - 1;
@@ -152,7 +165,10 @@ const Home = () => {
 								
 							<Nav className="navbar-link ms-auto">
 								<Nav.Link >
-									<Link to="/checkout"><span className="nav-Item">Purchase</span></Link>
+									<Link to="/checkout">
+										{/* <span className="nav-Item">Purchase</span> */}
+										<Button variant="outline-primary" className="nav-Item-button">Purchase</Button>
+									</Link>
 								</Nav.Link>
 							</Nav>
 							</Navbar.Collapse>
@@ -161,15 +177,15 @@ const Home = () => {
 
 			<Routes>
 				<Route path="/" element={ <ProductList products={products}
-																							 setProducts={setProducts} 
-																							 addToCart={addToCart} />}/>
+													   setProducts={setProducts} 
+													   addToCart={addToCart} />}/>
 				
 				<Route path="/checkout" element={<Checkout cart={cart} 
-																									 incrementQuantity={incrementQuantity} 
-																									 total={total} 
-																									 decrementQuantity={decrementQuantity}
-																									 addTotals={addTotals}
-																									 setTotal={setTotal} />}/>				
+														   incrementQuantity={incrementQuantity} 
+														   total={total} 
+														   decrementQuantity={decrementQuantity}
+														   addTotals={addTotals}
+														   setTotal={setTotal} />}/>				
 			</Routes>
 				
     </div>

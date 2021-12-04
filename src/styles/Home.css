@@ -2,3 +2,13 @@
     color: #fff;
     font-size: 1.2rem;
 }
+
+.nav-Item-button {
+    color: #bbceeb !important;
+    border-color: #bbceeb !important;
+}
+
+.nav-Item-button:hover {
+    border-color: #bbceeb !important;
+    color: black;
+}
