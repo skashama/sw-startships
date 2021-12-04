@@ -5,7 +5,7 @@ import '../styles/Home.css';
 import ProductList from './ProductList';
 import Checkout from './Checkout';
 
-// Main components
+// Main component
 
 const Home = () => {
 
@@ -36,10 +36,6 @@ const Home = () => {
 			let products = data.results;
 
 			products = products.filter(filterProduct);
-
-			
-			console.log(products);
-
 
 			products.forEach(product => {
 					product.inCart = false;
